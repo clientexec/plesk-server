@@ -24,253 +24,253 @@ class PluginPlesk extends ServerPlugin
         */
 
         $variables = array(
-            /*T*/'Name'/*/T*/          => array(
+            lang('Name')          => array(
                 'type'          => 'hidden',
                 'description'   => 'Used By CE to show plugin - must match how you call the action function names',
                 'value'         => 'Plesk',
                                ),
-            /*T*/'Description'/*/T*/   => array(
+            lang('Description')   => array(
                 'type'          => 'hidden',
-                'description'   => /*T*/'Description viewable by admin in server settings'/*/T*/,
-                'value'         => /*T*/'Plesk control panel integration'/*/T*/,
+                'description'   => lang('Description viewable by admin in server settings'),
+                'value'         => lang('Plesk control panel integration'),
                                ),
-            /*T*/'Username'/*/T*/      => array(
+            lang('Username')      => array(
                 'type'          => 'text',
-                'description'   => /*T*/'If you\'ll provide reseller accounts, enter here the Plesk administrator credentials. Otherwise just enter a regular user\'s credentials, but be aware that such user has to have \'Domain creation\', \'Physical hosting management\', \'Hard disk quota assignment\', \'Domain limits adjustment\'  and \'Ability to use remote XML interface\' permissions. This user will also need to have all its personal data configured in Plesk (E-mail, phone, etc), even those fields that are not marked as required.'/*/T*/,
+                'description'   => lang('If you\'ll provide reseller accounts, enter here the Plesk administrator credentials. Otherwise just enter a regular user\'s credentials, but be aware that such user has to have \'Domain creation\', \'Physical hosting management\', \'Hard disk quota assignment\', \'Domain limits adjustment\'  and \'Ability to use remote XML interface\' permissions. This user will also need to have all its personal data configured in Plesk (E-mail, phone, etc), even those fields that are not marked as required.'),
                 'value'         => '',
                                ),
-            /*T*/'Password'/*/T*/      => array(
+            lang('Password')      => array(
                 'type'          => 'password',
-                'description'   => /*T*/'If you\'ll provide reseller accounts, enter here the Plesk administrator credentials. Otherwise just enter a regular user\'s credentials, but be aware that such user has to have \'Domain creation\', \'Physical hosting management\', \'Hard disk quota assignment\', \'Domain limits adjustment\'  and \'Ability to use remote XML interface\' permissions. This user will also need to have all its personal data configured in Plesk (E-mail, phone, etc), even those fields that are not marked as required.'/*/T*/,
+                'description'   => lang('If you\'ll provide reseller accounts, enter here the Plesk administrator credentials. Otherwise just enter a regular user\'s credentials, but be aware that such user has to have \'Domain creation\', \'Physical hosting management\', \'Hard disk quota assignment\', \'Domain limits adjustment\'  and \'Ability to use remote XML interface\' permissions. This user will also need to have all its personal data configured in Plesk (E-mail, phone, etc), even those fields that are not marked as required.'),
                 'value'         => '',
                 'encryptable'   => true,
                                ),
-            /*T*/'Non-Admin Username'/*/T*/ => array(
+            lang('Non-Admin Username') => array(
                 'type'          => 'text',
-                'description'   => /*T*/'If you\'ll provide both reseller and non-reseller accounts, use the Plesk administrator account to create a user under whom non-reseller accounts (domains) will be created and enter its credentials here. Otherwise leave this field empty. This user will also need to have all its personal data configured in Plesk (E-mail, phone, etc), even those fields that are not marked as required.'/*/T*/,
+                'description'   => lang('If you\'ll provide both reseller and non-reseller accounts, use the Plesk administrator account to create a user under whom non-reseller accounts (domains) will be created and enter its credentials here. Otherwise leave this field empty. This user will also need to have all its personal data configured in Plesk (E-mail, phone, etc), even those fields that are not marked as required.'),
                 'value'         => '',
                                ),
-            /*T*/'Non-Admin Password'/*/T*/ => array(
+            lang('Non-Admin Password') => array(
                 'type'          => 'password',
-                'description'   => /*T*/'If you\'ll provide both reseller and non-reseller accounts, use the Plesk administrator account to create a user under whom non-reseller accounts (domains) will be created and enter its credentials here. Otherwise leave this field empty. This user will also need to have all its personal data configured in Plesk (E-mail, phone, etc), even those fields that are not marked as required.'/*/T*/,
+                'description'   => lang('If you\'ll provide both reseller and non-reseller accounts, use the Plesk administrator account to create a user under whom non-reseller accounts (domains) will be created and enter its credentials here. Otherwise leave this field empty. This user will also need to have all its personal data configured in Plesk (E-mail, phone, etc), even those fields that are not marked as required.'),
                 'value'         => '',
                 'encryptable'   => true,
                                ),
-            /*T*/'Actions'/*/T*/       => array(
+            lang('Actions')       => array(
                 'type'          => 'hidden',
-                'description'   => /*T*/'Current actions that are active for this plugin per server'/*/T*/,
+                'description'   => lang('Current actions that are active for this plugin per server'),
                 'value'         => 'Create,Delete,Suspend,UnSuspend',
                                ),
-            /*T*/'package_vars'/*/T*/  => array(
+            lang('package_vars')  => array(
                 'type'          => 'hidden',
-                'description'   => /*T*/'Whether package settings are set'/*/T*/,
+                'description'   => lang('Whether package settings are set'),
                 'value'         => '0',
                                ),
-            /*T*/'package_vars_values'/*/T*/ => array(
+            lang('package_vars_values') => array(
                 'type'          => 'hidden',
-                'description'   => /*T*/'Hosting account parameters'/*/T*/,
+                'description'   => lang('Hosting account parameters'),
                 'value'         => array(
                                         'reseller_account' => array(
                                                                'type'           => 'check',
                                                                'label'          =>'Reseller Account',
-                                                               'description'    => /*T*/'You need Plesk Administrator access.<br>NOTE: The username for non-reseller accounts is the domain name'/*/T*/,
+                                                               'description'    => lang('You need Plesk Administrator access.<br>NOTE: The username for non-reseller accounts is the domain name'),
                                                                'value'          => '0',
                                                            ),
                                         'max_dom'       => array(
                                                                'type'           => 'text',
                                                                 'label'          =>'Maximum number of domains',
-                                                               'description'    => /*T*/'For resellers only, leave empty for unlimited'/*/T*/,
+                                                               'description'    => lang('For resellers only, leave empty for unlimited'),
                                                                'value'          => '',
                                                             ),
                                         'www'           => array(
                                                                'type'           => 'check',
-                                                               'label'    => /*T*/'Use www prefix'/*/T*/,
+                                                               'label'    => lang('Use www prefix'),
                                                                'value'          => '1',
                                                             ),
                                         'max_subdom'    => array(
                                                                'type'           => 'text',
-                                                               'description'    => /*T*/'Maximum number of subdomains (leave empty for unlimited)'/*/T*/,
+                                                               'description'    => lang('Maximum number of subdomains (leave empty for unlimited)'),
                                                                'value'          => '',
                                                                'template'       => true,
                                                             ),
                                         'disk_space'    => array(
                                                                'type'           => 'text',
-                                                               'description'    => /*T*/'Disk space (in bytes, leave empty for unlimited)'/*/T*/,
+                                                               'description'    => lang('Disk space (in bytes, leave empty for unlimited)'),
                                                                'value'          => '',
                                                                'template'       => true,
                                                             ),
                                         'max_traffic'   => array(
                                                                'type'           => 'text',
-                                                               'description'    => /*T*/'Maximum amount of traffic (in bytes/month, leave empty for unlimited)'/*/T*/,
+                                                               'description'    => lang('Maximum amount of traffic (in bytes/month, leave empty for unlimited)'),
                                                                'value'          => '',
                                                                'template'       => true,
                                                             ),
                                         'max_wu'        => array(
                                                                'type'           => 'text',
-                                                               'description'    => /*T*/'Maximum number of web users (leave empty for unlimited)'/*/T*/,
+                                                               'description'    => lang('Maximum number of web users (leave empty for unlimited)'),
                                                                'value'          => '',
                                                                'template'       => true,
                                                             ),
                                         'max_db'        => array(
                                                                'type'           => 'text',
-                                                               'description'    => /*T*/'Maximum number of databases (leave empty for unlimited)'/*/T*/,
+                                                               'description'    => lang('Maximum number of databases (leave empty for unlimited)'),
                                                                'value'          => '',
                                                                'template'       => true,
                                                             ),
                                         'max_box'       => array(
                                                                'type'           => 'text',
-                                                               'description'    => /*T*/'Maximum number of mailboxes (leave empty for unlimited)'/*/T*/,
+                                                               'description'    => lang('Maximum number of mailboxes (leave empty for unlimited)'),
                                                                'value'          => '',
                                                                'template'       => true,
                                                             ),
                                         'mbox_quota'    => array(
                                                                'type'           => 'text',
-                                                               'description'    => /*T*/'Mailbox quota (in bytes, leave empty for unlimited)'/*/T*/,
+                                                               'description'    => lang('Mailbox quota (in bytes, leave empty for unlimited)'),
                                                                'value'          => '',
                                                                'template'       => true,
                                                             ),
                                         'max_redir'     => array(
                                                                'type'           => 'text',
-                                                               'description'    => /*T*/'Maximum number of mail redirects (leave empty for unlimited)'/*/T*/,
+                                                               'description'    => lang('Maximum number of mail redirects (leave empty for unlimited)'),
                                                                'value'          => '',
                                                                'template'       => true,
                                                             ),
                                         'max_mg'        => array(
                                                                'type'           => 'text',
-                                                               'description'    => /*T*/'Maximum number of mail groups (leave empty for unlimited)'/*/T*/,
+                                                               'description'    => lang('Maximum number of mail groups (leave empty for unlimited)'),
                                                                'value'          => '',
                                                                'template'       => true,
                                                             ),
                                         'max_resp'      => array(
                                                                'type'           => 'text',
-                                                               'description'    => /*T*/'Maximum number of mail autoresponders (leave empty for unlimited)'/*/T*/,
+                                                               'description'    => lang('Maximum number of mail autoresponders (leave empty for unlimited)'),
                                                                'value'          => '',
                                                                'template'       => true,
                                                             ),
                                         'max_maillists' => array(
                                                                'type'           => 'text',
-                                                               'description'    => /*T*/'Maximum number of mail lists (leave empty for unlimited)'/*/T*/,
+                                                               'description'    => lang('Maximum number of mail lists (leave empty for unlimited)'),
                                                                'value'          => '',
                                                                'template'       => true,
                                                             ),
                                         'max_webapps'   => array(
                                                                'type'           => 'text',
-                                                               'description'    => /*T*/'Maximum number of Java applications (leave empty for unlimited)'/*/T*/,
+                                                               'description'    => lang('Maximum number of Java applications (leave empty for unlimited)'),
                                                                'value'          => '',
                                                                'template'       => true,
                                                             ),
                                         'ftp_quota'     => array(
                                                                'type'           => 'text',
-                                                               'description'    => /*T*/'FTP quota (in bytes, leave empty for unlimited)'/*/T*/,
+                                                               'description'    => lang('FTP quota (in bytes, leave empty for unlimited)'),
                                                                'value'          => '',
                                                                'template'       => true,
                                                             ),
                                         'fp'            => array(
                                                                'type'           => 'check',
-                                                               'description'    => /*T*/'FrontPage support'/*/T*/,
+                                                               'description'    => lang('FrontPage support'),
                                                                'value'          => '0',
                                                                'template'       => true,
                                                             ),
                                         'fp_ssl'        => array(
                                                                'type'           => 'check',
-                                                               'description'    => /*T*/'FrontPage over SSL support'/*/T*/,
+                                                               'description'    => lang('FrontPage over SSL support'),
                                                                'value'          => '0',
                                                                'template'       => true,
                                                             ),
                                         'fp_auth'       => array(
                                                                'type'           => 'check',
-                                                               'description'    => /*T*/'Allow FrontPage Authorization'/*/T*/,
+                                                               'description'    => lang('Allow FrontPage Authorization'),
                                                                'value'          => '0',
                                                                'template'       => true,
                                                             ),
                                         'ssl'           => array(
                                                                'type'           => 'check',
-                                                               'description'    => /*T*/'SSL support'/*/T*/,
+                                                               'description'    => lang('SSL support'),
                                                                'value'          => '0',
                                                                'template'       => true,
                                                             ),
                                         'shell'         => array(
                                                                'type'           => 'text',
-                                                               'description'    => /*T*/'System shell (e.g. /bin/bash. Leave empty to disallow)'/*/T*/,
+                                                               'description'    => lang('System shell (e.g. /bin/bash. Leave empty to disallow)'),
                                                                'value'          => '',
                                                                'template'       => true,
                                                             ),
                                         'php'           => array(
                                                                'type'           => 'check',
-                                                               'description'    => /*T*/'PHP support'/*/T*/,
+                                                               'description'    => lang('PHP support'),
                                                                'value'          => '0',
                                                                'template'       => true,
                                                             ),
                                         'ssi'           => array(
                                                                'type'           => 'check',
-                                                               'description'    => /*T*/'SSI support'/*/T*/,
+                                                               'description'    => lang('SSI support'),
                                                                'value'          => '0',
                                                                'template'       => true,
                                                             ),
                                         'cgi'           => array(
                                                                'type'           => 'check',
-                                                               'description'    => /*T*/'CGI support'/*/T*/,
+                                                               'description'    => lang('CGI support'),
                                                                'value'          => '0',
                                                                'template'       => true,
                                                             ),
                                         'mod_perl'      => array(
                                                                'type'           => 'check',
-                                                               'description'    => /*T*/'mod_perl support'/*/T*/,
+                                                               'description'    => lang('mod_perl support'),
                                                                'value'          => '0',
                                                                'template'       => true,
                                                             ),
                                         'mod_python'    => array(
                                                                'type'           => 'check',
-                                                               'description'    => /*T*/'mod_python support'/*/T*/,
+                                                               'description'    => lang('mod_python support'),
                                                                'value'          => '0',
                                                                'template'       => true,
                                                             ),
                                         'asp'           => array(
                                                                'type'           => 'check',
-                                                               'description'    => /*T*/'Apache ASP support'/*/T*/,
+                                                               'description'    => lang('Apache ASP support'),
                                                                'value'          => '0',
                                                                'template'       => true,
                                                             ),
                                         'asp_dot_net'   => array(
                                                                'type'           => 'check',
-                                                               'description'    => /*T*/'ASP.NET support'/*/T*/,
+                                                               'description'    => lang('ASP.NET support'),
                                                                'value'          => '0',
                                                                'template'       => true,
                                                             ),
                                         'max_mssql_db'   => array(
                                                                'type'           => 'text',
-                                                               'description'    => /*T*/'Maximum number of Microsoft SQL Server databases'/*/T*/,
+                                                               'description'    => lang('Maximum number of Microsoft SQL Server databases'),
                                                                'value'          => '',
                                                                'template'       => true,
                                                             ),
                                         'coldfusion'    => array(
                                                                'type'           => 'check',
-                                                               'description'    => /*T*/'Coldfusion support'/*/T*/,
+                                                               'description'    => lang('Coldfusion support'),
                                                                'value'          => '0',
                                                                'template'       => true,
                                                             ),
                                         'webstat'       => array(
                                                                'type'           => 'text',
-                                                               'description'    => /*T*/'Webserver statistics support (awstats, webalizer, smarterstats, urchin, none)'/*/T*/,
+                                                               'description'    => lang('Webserver statistics support (awstats, webalizer, smarterstats, urchin, none)'),
                                                                'value'          => 'none',
                                                                'template'       => true,
                                                             ),
                                         'errdocs'       => array(
                                                                'type'           => 'check',
-                                                               'description'    => /*T*/'Custom error documents support'/*/T*/,
+                                                               'description'    => lang('Custom error documents support'),
                                                                'value'          => '0',
                                                                'template'       => true,
                                                             ),
                                         'at_domains'    => array(
                                                                'type'           => 'check',
-                                                               'description'    => /*T*/'@-domains support'/*/T*/,
+                                                               'description'    => lang('@-domains support'),
                                                                'value'          => '0',
                                                             ),
                                     ),
                 ),
-            /*T*/'package_addons'/*/T*/ => array(
+            lang('package_addons') => array(
                 'type'          => 'hidden',
-                'description'   => /*T*/'Supported signup addons variables'/*/T*/,
+                'description'   => lang('Supported signup addons variables'),
                 'value'         => array(
                     'DISKSPACE', 'BANDWIDTH', 'EMAIL_ACCOUNTS', 'EMAIL_QUOTA', 'SSH_ACCESS', 'SSL'
                 ),
@@ -284,15 +284,15 @@ class PluginPlesk extends ServerPlugin
     {
         $errors = array();
         if (!preg_match('/^[\w.-]+$/',$args['package']['username'])) {
-            $errors[] = /*T*/'Domain username can only contain alphanumeric characters, dots, dashes and underscores'/*/T*/;
+            $errors[] = lang('Domain username can only contain alphanumeric characters, dots, dashes and underscores');
         }
 
         if (strpos($args['package']['password'],$args['package']['username']) !== false) {
-            $errors[] = /*T*/'Domain password can\'t contain domain username'/*/T*/;
+            $errors[] = lang('Domain password can\'t contain domain username');
         }
 
         if (trim($args['package']['username']) == '') {
-            $errors[] = /*T*/'Domain username can\'t be empty'/*/T*/;
+            $errors[] = lang('Domain username can\'t be empty');
         }
 
         if (strlen($args['package']['password']) > 14 && @$args['generateNewUsername']) {
@@ -300,7 +300,7 @@ class PluginPlesk extends ServerPlugin
         }
 
         if (strlen($args['package']['password']) < 5 || strlen($args['package']['password']) > 14) {
-            $errors[] = /*T*/'Password length must be between 5 and 14 characters'/*/T*/;
+            $errors[] = lang('Password length must be between 5 and 14 characters');
         }
 
         // Plesk only allows lower case user names
