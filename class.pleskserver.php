@@ -18,7 +18,7 @@ class PleskServer
                             'max_redir', 'max_mg', 'max_resp', 'max_maillists', 'max_webapps', 'max_mssql_db');
 
     // @access	public
-    function PleskServer(&$settings, $host, $user, $password)
+    function __construct(&$settings, $host, $user, $password)
     {
         $this->settings =& $settings;
         $this->host = $host;
@@ -63,7 +63,7 @@ class PleskServer
             throw new CE_Exception("Couldn't insert domain in Plesk. Plesk returned: $errMessage", $errorCode);
         }
         if ($this->_returnedStatus($response, 'client', 'add') != 'ok') {
-            throw new CE_CE_Exception('Error contacting Plesk server when trying to add user', 101);
+            throw new CE_Exception('Error contacting Plesk server when trying to add user', 101);
         }
 
         return $response['packet']['#']['client'][0]['#']['add'][0]['#']['result'][0]['#']['id'][0]['#'];
@@ -92,10 +92,10 @@ class PleskServer
         $response = $this->_sendRequest($request);
 
         if ($errorCode = $this->_errorCode($response, 'client', 'set', $errMessage)) {
-            throw new CE_CE_Exception("Plesk returned: $errMessage", $errorCode);
+            throw new CE_Exception("Plesk returned: $errMessage", $errorCode);
         }
         if ($this->_returnedStatus($response, 'client', 'set') != 'ok') {
-            throw new CE_CE_Exception('Error contacting Plesk server when trying to give user the Create Domains permission', 101);
+            throw new CE_Exception('Error contacting Plesk server when trying to give user the Create Domains permission', 101);
         }
 
         return true;
@@ -115,10 +115,10 @@ class PleskServer
         $response = $this->_sendRequest($request);
 
         if ($errorCode = $this->_errorCode($response, 'client', 'ippool_add_ip', $errMessage)) {
-            throw new CE_CE_Exception("Plesk returned: $errMessage", $errorCode);
+            throw new CE_Exception("Plesk returned: $errMessage", $errorCode);
         }
         if ($this->_returnedStatus($response, 'client', 'ippool_add_ip') != 'ok') {
-            throw new CE_CE_Exception('Error contacting Plesk server when trying to add IP to user', 101);
+            throw new CE_Exception('Error contacting Plesk server when trying to add IP to user', 101);
         }
     }
 
@@ -136,10 +136,10 @@ class PleskServer
         $response = $this->_sendRequest($request);
 
         if ($errorCode = $this->_errorCode($response, 'client', 'ippool_del_ip', $errMessage)) {
-            throw new CE_CE_Exception("Plesk returned: $errMessage", $errorCode);
+            throw new CE_Exception("Plesk returned: $errMessage", $errorCode);
         }
         if ($this->_returnedStatus($response, 'client', 'ippool_del_ip') != 'ok') {
-            throw new CE_CE_Exception('Error contacting Plesk server when trying to remove IP from user\s IP pool', 101);
+            throw new CE_Exception('Error contacting Plesk server when trying to remove IP from user\s IP pool', 101);
         }
     }
 
@@ -197,10 +197,10 @@ class PleskServer
         $response = $this->_sendRequest($request);
 
         if ($errorCode = $this->_errorCode($response, 'domain', 'add', $errMessage)) {
-            throw new CE_CE_Exception("Plesk returned: $errMessage", $errorCode);
+            throw new CE_Exception("Plesk returned: $errMessage", $errorCode);
         }
         if ($this->_returnedStatus($response, 'domain', 'add') != 'ok') {
-            throw new CE_CE_Exception('Error contacting Plesk server when trying to add domain to user', 101);
+            throw new CE_Exception('Error contacting Plesk server when trying to add domain to user', 101);
         }
 
         return $response['packet']['#']['domain'][0]['#']['add'][0]['#']['result'][0]['#']['id'][0]['#'];
@@ -221,7 +221,7 @@ class PleskServer
 		$response = $this->_sendRequest($request);
 
         if ($errorCode = $this->_errorCode($response, 'client', 'del', $errMessage)) {
-            throw new CE_CE_Exception("Plesk returned: $errMessage", $errorCode);
+            throw new CE_Exception("Plesk returned: $errMessage", $errorCode);
         }
         if ($this->_returnedStatus($response, 'client', 'del') != 'ok') {
             throw new CE_Exception('Error contacting Plesk server when trying to delete user', 101);
@@ -676,7 +676,7 @@ EOF;
 
     function _convertStr($str)
     {
-        return $str;
+        return trim($str);
         //return CE_Lib::convertStr($this->settings->get('Character Set'), 'UTF-8', $str);
     }
 }

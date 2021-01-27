@@ -7,10 +7,11 @@ require_once 'modules/admin/models/ServerPlugin.php';
 */
 class PluginPlesk extends ServerPlugin
 {
-  public $features = array(
+    public $features = array(
         'packageName' => true,
         'testConnection' => false,
-        'showNameservers' => true
+        'showNameservers' => true,
+        'upgrades' => true
     );
 
     function getVariables()
@@ -283,11 +284,15 @@ class PluginPlesk extends ServerPlugin
     function validateCredentials($args)
     {
         $errors = array();
-        if (!preg_match('/^[\w.-]+$/',$args['package']['username'])) {
+        if (!preg_match('/^[\w.-]+$/', $args['package']['username'])) {
             $errors[] = lang('Domain username can only contain alphanumeric characters, dots, dashes and underscores');
         }
 
-        if (strpos($args['package']['password'],$args['package']['username']) !== false) {
+        // remove any character that isn't alpha-numeric from the username
+        $args['package']['username'] = preg_replace("/[^a-zA-Z0-9]/", '', $args['package']['username']);
+
+
+        if (strpos($args['package']['password'], $args['package']['username']) !== false) {
             $errors[] = lang('Domain password can\'t contain domain username');
         }
 
@@ -306,7 +311,7 @@ class PluginPlesk extends ServerPlugin
         // Plesk only allows lower case user names
         $args['package']['username'] = strtolower($args['package']['username']);
 
-        if(isset($args['noError'])) {
+        if (isset($args['noError'])) {
             return $args['package']['username'];
         } else {
             if (count($errors) > 0) {
@@ -341,14 +346,16 @@ class PluginPlesk extends ServerPlugin
 
         if (isset($args['package_vars']['reseller_account']) && $args['package_vars']['reseller_account'] == 1) {
             // use $server to test with mock object
-           $server = $this->getServer($args);
+            $server = $this->getServer($args);
 
             // create user in Plesk
             $tUser = new User($args['customer']['id']);
-            $userId = $server->addUser( $args['customer']['first_name'] . ' ' . $args['customer']['last_name'] . ' (' . $args['package']['id'] . ')',
-                                        $args['package']['username'],
-                                        $args['package']['password'],
-                                        $tUser);
+            $userId = $server->addUser(
+                $args['customer']['first_name'] . ' ' . $args['customer']['last_name'] . ' (' . $args['package']['id'] . ')',
+                $args['package']['username'],
+                $args['package']['password'],
+                $tUser
+            );
             if (is_a($userId, 'CE_Error')) {
                 return $userId;
             }
@@ -356,43 +363,44 @@ class PluginPlesk extends ServerPlugin
             if (is_a($response, 'CE_Error')) {
                 return $response;
             }
-
-
         } else {
             if (!$server) {
-               $server = $this->getServer($args);
+                $server = $this->getServer($args);
             }
             $userId = false;
         }
 
         // add domain to user
-        if($args['package']['name_on_server']!=null && $args['package']['name_on_server']!= ''){
+        if ($args['package']['name_on_server']!=null && $args['package']['name_on_server']!= '') {
             $args['package_vars']['PackageNameOnServer'] = $args['package']['name_on_server'];
             $variables = $this->getVariables();
-            foreach($variables['package_vars_values']['value'] AS $varName=>$attrs){
-                if(isset($attrs['template']) && $attrs['template']){
+            foreach ($variables['package_vars_values']['value'] as $varName => $attrs) {
+                if (isset($attrs['template']) && $attrs['template']) {
                     $args['package_vars']['TemplateAttr'][] = $varName;
                 }
             }
         }
         $tUser = new User($args['customer']['id']);
-        $userId = $server->addUser( $args['customer']['first_name'] . ' ' . $args['customer']['last_name'] . ' (' . $args['package']['id'] . ')',
-                                        $args['package']['username'],
-                                        $args['package']['password'],
-                                        $tUser);
+        $userId = $server->addUser(
+            $args['customer']['first_name'] . ' ' . $args['customer']['last_name'] . ' (' . $args['package']['id'] . ')',
+            $args['package']['username'],
+            $args['package']['password'],
+            $tUser
+        );
 
         if (is_a($result = $server->addIpToUser($userId, $args['package']['ip']), 'CE_Error')) {
                 return $result;
-            }
+        }
 
-        $domainId = $server->addDomainToUser(    $userId,
-                                                 $args['package']['username'],
-                                                 $args['package']['password'],
-                                                 $args['package']['domain_name'],
-                                                 $args['package']['ip'],
-                                                 @$args['package_vars'],
-                                                 $tUser
-                                                 );
+        $domainId = $server->addDomainToUser(
+            $userId,
+            $args['package']['username'],
+            $args['package']['password'],
+            $args['package']['domain_name'],
+            $args['package']['ip'],
+            @$args['package_vars'],
+            $tUser
+        );
 
         // Ignore error 2307: always raises even if operation was successful.
         if (is_a($domainId, 'CE_Error') && $domainId->getErrCode() != 2307) {
@@ -403,7 +411,6 @@ class PluginPlesk extends ServerPlugin
         }
 
         return array('userId' => $userId, 'domainId' => $domainId);
-
     }
 
     // use $server to test with mock object
@@ -414,10 +421,8 @@ class PluginPlesk extends ServerPlugin
         $ip             = $args['package']['ip'];
         $packageVars    = false;
 
-        foreach ( $args['changes'] as $change => $newValue )
-        {
-            switch($change)
-            {
+        foreach ($args['changes'] as $change => $newValue) {
+            switch ($change) {
                 case 'username':
                     $userName = $newValue;
                     break;
@@ -444,7 +449,7 @@ class PluginPlesk extends ServerPlugin
                 }
             }
         } else {
-          $server = $this->getServer($args);
+            $server = $this->getServer($args);
         }
 
         // unset package attributes must be set to 0
@@ -457,11 +462,11 @@ class PluginPlesk extends ServerPlugin
             }
             $packageVars = array_merge($attributes, $packageVars);
         }
-        if($args['package']['name_on_server']!=null && $args['package']['name_on_server']!= ''){
+        if ($args['package']['name_on_server']!=null && $args['package']['name_on_server']!= '') {
             $packageVars['PackageNameOnServer'] = $args['package']['name_on_server'];
             $variables = $this->getVariables();
-            foreach($variables['package_vars_values']['value'] AS $varName=>$attrs){
-                if(isset($attrs['template']) && $attrs['template']){
+            foreach ($variables['package_vars_values']['value'] as $varName => $attrs) {
+                if (isset($attrs['template']) && $attrs['template']) {
                     $packageVars['TemplateAttr'][] = $varName;
                 }
             }
@@ -470,7 +475,7 @@ class PluginPlesk extends ServerPlugin
         $result = $server->updateDomain($domainID, $userName, $password, $ip, $packageVars);
 
         if (is_a($result, 'CE_Error')) {
-            CE_Lib::log(4,"Error code = ".$result);
+            CE_Lib::log(4, "Error code = ".$result);
             return $result;
         }
         return true;
@@ -507,13 +512,13 @@ class PluginPlesk extends ServerPlugin
             }
             $domainID = $this->getDomainId($args, $server);
             $response = $server->setDomainStatus($domainID, 16);
-        	if (is_a($response, 'CE_Error')) {
+            if (is_a($response, 'CE_Error')) {
                     return $response;
             }
-        }else{
+        } else {
             $domainID = $this->getDomainId($args, $server);
             $response = $server->setDomainStatus($domainID, 32);
-        	if (is_a($response, 'CE_Error')) {
+            if (is_a($response, 'CE_Error')) {
                     return $response;
             }
         }
@@ -583,7 +588,7 @@ class PluginPlesk extends ServerPlugin
             $response = $server->getDomainInfo($args['package']['domain_name']);
             $status = $response['packet']['#']['domain'][0]['#']['get'][0]['#']['result'][0]['#']['data'][0]['#']['gen_info'][0]['#']['status'][0]['#'];
             $actions[] = 'Delete';
-            if ( $status == '0' ) {
+            if ($status == '0') {
                 $actions[] = 'Suspend';
             } else {
                 $actions[] = 'UnSuspend';
@@ -596,12 +601,9 @@ class PluginPlesk extends ServerPlugin
 
     function getServer($args)
     {
-        if ( isset($args['package']['variables']['reseller_account']) && $args['package']['variables']['reseller_account'] == 1 )
-        {
-          $server = new PleskServer($this->settings, $args['server']['variables']['ServerHostName'], $args['server']['variables']['plugin_plesk_Username'], $args['server']['variables']['plugin_plesk_Password']);
-        }
-        else
-        {
+        if (isset($args['package']['variables']['reseller_account']) && $args['package']['variables']['reseller_account'] == 1) {
+            $server = new PleskServer($this->settings, $args['server']['variables']['ServerHostName'], $args['server']['variables']['plugin_plesk_Username'], $args['server']['variables']['plugin_plesk_Password']);
+        } else {
             if ($args['server']['variables']['plugin_plesk_Non-Admin_Username'] != '' && $args['server']['variables']['plugin_plesk_Non-Admin_Password'] != '') {
                 $server = new PleskServer($this->settings, $args['server']['variables']['ServerHostName'], $args['server']['variables']['plugin_plesk_Non-Admin_Username'], $args['server']['variables']['plugin_plesk_Non-Admin_Password']);
             } else {
@@ -626,4 +628,3 @@ class PluginPlesk extends ServerPlugin
         return $server->getResellerId($args['package']["username"]);
     }
 }
-?>
